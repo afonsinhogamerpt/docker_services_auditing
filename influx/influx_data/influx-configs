@@ -1,0 +1,26 @@
+[admin]
+  url = "http://localhost:8086"
+  token = ""
+  org = "admin"
+  cookie = "YWRtaW46YWRtaW5hbWlu"
+
+[admin2]
+  url = "http://localhost:8086"
+  token = "-slk3IEBCrEYq4KSV7utvIjxZ76c58q3lQS8nKLxSNtbMeBi1-PjQ6fyT0vJaD0KsUzThu29bPwTCUZAg87iiA=="
+  org = "5f041d8dbda41967"
+  active = true
+# 
+# [eu-central]
+#   url = "https://eu-central-1-1.aws.cloud2.influxdata.com"
+#   token = "XXX"
+#   org = ""
+# 
+# [us-central]
+#   url = "https://us-central1-1.gcp.cloud2.influxdata.com"
+#   token = "XXX"
+#   org = ""
+# 
+# [us-west]
+#   url = "https://us-west-2-1.aws.cloud2.influxdata.com"
+#   token = "XXX"
+#   org = ""

@@ -1,0 +1,71 @@
+services: 
+    grafana:
+        image: grafana/grafana:main-ubuntu
+        container_name: grafana
+        depends_on: 
+          - influxdb
+        ports:
+            - 3001:3000
+        networks: 
+          - grafana_influxdb
+        volumes: 
+            - ./grafana/grafana_data:/var/lib/grafana
+       
+    influxdb:
+        env_file:
+            - path: ./influx/.env
+        image: influxdb
+        container_name: influx
+        ports:
+            - 8086:8086
+        volumes:
+            - ./influx/influx_data:/etc/influxdb2
+            - ./influx/influx_config:/var/lib/influxdb2
+
+        entrypoint: ["./entrypoint.sh"]
+
+        networks: 
+          - grafana_influxdb
+
+    smokeping:
+        build: ./smokeping
+        container_name: smokeping
+        ports:
+            - 80:80
+        volumes:
+            - ./smokeping/config:/config
+            - ./smokeping/data:/data
+            - ./smokeping/influx.py:/my-venv/bin/influx.py
+        networks:
+            - grafana_influxdb
+        labels:
+            - traefik.http.routers.smokeping.rule=Host(`smokeping.domain.com`)
+            - traefik.http.routers.smokeping.tls.certresolver=cloudflare
+        environment:
+            - PUID=1000
+            - PGID=1000
+            - TZ=Europe/Lisbon
+        hostname: afonso_gabriel
+        restart: unless-stopped   
+
+    telegraf:
+        image: telegraf
+        container_name: telegraf
+        ports:
+            - 8094:8094
+        volumes:
+            - ./telegraf/telegraf.conf:/etc/telegraf/telegraf.conf
+        networks:
+            - grafana_influxdb
+        env_file:
+            - path: ./influx/.env
+        depends_on: 
+            - influxdb
+  
+
+volumes:
+    influx_data:
+
+networks:
+    grafana_influxdb:
+         driver: bridge
