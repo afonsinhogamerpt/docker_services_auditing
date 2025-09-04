@@ -1,0 +1,240 @@
+Updating SQL-Schema
+
+   INFO  Nothing to migrate.  
+Returned: 0
+Cleaning up DB
+Refreshing alert rules queries
+Clearing OS cache
+Refreshing device group table relationships
+Syslog cleared for entries over 30 days (about 0 rows)
+Deleting alert_logs more than 365 days that are not active
+Deleting history of active alert_logs more than 365 days
+All deleted ports now purged
+Returned: 0
+Updating SQL-Schema
+
+   INFO  Nothing to migrate.  
+Returned: 0
+Cleaning up DB
+Refreshing alert rules queries
+Clearing OS cache
+Refreshing device group table relationships
+Syslog cleared for entries over 30 days (about 0 rows)
+Eventlog cleared for entries over 30 days
+Authlog cleared for entries over 30 days
+Deleting alert_logs more than 365 days that are not active
+Deleting history of active alert_logs more than 365 days
+All deleted ports now purged
+Returned: 0
+Updating SQL-Schema
+
+   INFO  Nothing to migrate.  
+Returned: 0
+Cleaning up DB
+Refreshing alert rules queries
+Clearing OS cache
+Refreshing device group table relationships
+Syslog cleared for entries over 30 days (about 0 rows)
+Deleting alert_logs more than 365 days that are not active
+Deleting history of active alert_logs more than 365 days
+All deleted ports now purged
+Returned: 0
+Updating SQL-Schema
+
+   INFO  Nothing to migrate.  
+Returned: 0
+Cleaning up DB
+Refreshing alert rules queries
+Clearing OS cache
+Refreshing device group table relationships
+Syslog cleared for entries over 30 days (about 0 rows)
+Deleting alert_logs more than 365 days that are not active
+Deleting history of active alert_logs more than 365 days
+All deleted ports now purged
+Returned: 0
+Updating SQL-Schema
+
+   INFO  Nothing to migrate.  
+Returned: 0
+Cleaning up DB
+Refreshing alert rules queries
+Clearing OS cache
+Refreshing device group table relationships
+Syslog cleared for entries over 30 days (about 0 rows)
+Deleting alert_logs more than 365 days that are not active
+Deleting history of active alert_logs more than 365 days
+All deleted ports now purged
+Returned: 0
+Updating SQL-Schema
+
+   INFO  Nothing to migrate.  
+Returned: 0
+Cleaning up DB
+Refreshing alert rules queries
+Clearing OS cache
+Refreshing device group table relationships
+Syslog cleared for entries over 30 days (about 0 rows)
+Deleting alert_logs more than 365 days that are not active
+Deleting history of active alert_logs more than 365 days
+All deleted ports now purged
+Returned: 0
+Updating SQL-Schema
+
+   INFO  Nothing to migrate.  
+Returned: 0
+Cleaning up DB
+Refreshing alert rules queries
+Clearing OS cache
+Refreshing device group table relationships
+Syslog cleared for entries over 30 days (about 0 rows)
+Deleting alert_logs more than 365 days that are not active
+Deleting history of active alert_logs more than 365 days
+All deleted ports now purged
+Returned: 0
+Updating SQL-Schema
+
+   INFO  Nothing to migrate.  
+Returned: 0
+Cleaning up DB
+Refreshing alert rules queries
+Clearing OS cache
+Refreshing device group table relationships
+Syslog cleared for entries over 30 days (about 0 rows)
+Deleting alert_logs more than 365 days that are not active
+Deleting history of active alert_logs more than 365 days
+All deleted ports now purged
+Returned: 0
+Updating SQL-Schema
+
+   INFO  Nothing to migrate.  
+Returned: 0
+Cleaning up DB
+Refreshing alert rules queries
+Clearing OS cache
+Refreshing device group table relationships
+Syslog cleared for entries over 30 days (about 0 rows)
+Deleting alert_logs more than 365 days that are not active
+Deleting history of active alert_logs more than 365 days
+All deleted ports now purged
+Returned: 0
+Updating SQL-Schema
+
+   INFO  Nothing to migrate.  
+Returned: 0
+Cleaning up DB
+Refreshing alert rules queries
+Clearing OS cache
+Refreshing device group table relationships
+Syslog cleared for entries over 30 days (about 0 rows)
+Deleting alert_logs more than 365 days that are not active
+Deleting history of active alert_logs more than 365 days
+All deleted ports now purged
+Returned: 0
+Updating SQL-Schema
+
+   INFO  Nothing to migrate.  
+Returned: 0
+Cleaning up DB
+Refreshing alert rules queries
+Clearing OS cache
+Refreshing device group table relationships
+Syslog cleared for entries over 30 days (about 0 rows)
+Deleting alert_logs more than 365 days that are not active
+Deleting history of active alert_logs more than 365 days
+All deleted ports now purged
+Returned: 0
+Updating SQL-Schema
+
+   INFO  Nothing to migrate.  
+Returned: 0
+Cleaning up DB
+Refreshing alert rules queries
+Clearing OS cache
+Refreshing device group table relationships
+Syslog cleared for entries over 30 days (about 0 rows)
+Authlog cleared for entries over 30 days
+Deleting alert_logs more than 365 days that are not active
+Deleting history of active alert_logs more than 365 days
+All deleted ports now purged
+Returned: 0
+Updating SQL-Schema
+
+   INFO  Nothing to migrate.  
+Returned: 0
+Cleaning up DB
+Refreshing alert rules queries
+Clearing OS cache
+Refreshing device group table relationships
+Syslog cleared for entries over 30 days (about 0 rows)
+Deleting alert_logs more than 365 days that are not active
+Deleting history of active alert_logs more than 365 days
+All deleted ports now purged
+Returned: 0
+Updating SQL-Schema
+
+   INFO  Nothing to migrate.  
+Returned: 0
+Cleaning up DB
+Refreshing alert rules queries
+Clearing OS cache
+Refreshing device group table relationships
+Syslog cleared for entries over 30 days (about 0 rows)
+Eventlog cleared for entries over 30 days
+Authlog cleared for entries over 30 days
+Deleting alert_logs more than 365 days that are not active
+Deleting history of active alert_logs more than 365 days
+All deleted ports now purged
+Returned: 0
+Updating SQL-Schema
+
+   INFO  Nothing to migrate.  
+Returned: 0
+Cleaning up DB
+Refreshing alert rules queries
+Clearing OS cache
+Refreshing device group table relationships
+Syslog cleared for entries over 30 days (about 0 rows)
+Deleting alert_logs more than 365 days that are not active
+Deleting history of active alert_logs more than 365 days
+All deleted ports now purged
+Returned: 0
+Updating SQL-Schema
+
+   INFO  Nothing to migrate.  
+Returned: 0
+Cleaning up DB
+Refreshing alert rules queries
+Clearing OS cache
+Refreshing device group table relationships
+Syslog cleared for entries over 30 days (about 0 rows)
+Deleting alert_logs more than 365 days that are not active
+Deleting history of active alert_logs more than 365 days
+Route cleared for entries over 10 days
+All deleted ports now purged
+Returned: 0
+Updating SQL-Schema
+
+   INFO  Nothing to migrate.  
+Returned: 0
+Cleaning up DB
+Refreshing alert rules queries
+Clearing OS cache
+Refreshing device group table relationships
+Syslog cleared for entries over 30 days (about 0 rows)
+Deleting alert_logs more than 365 days that are not active
+Deleting history of active alert_logs more than 365 days
+All deleted ports now purged
+Returned: 0
+Updating SQL-Schema
+
+   INFO  Nothing to migrate.  
+Returned: 0
+Cleaning up DB
+Refreshing alert rules queries
+Clearing OS cache
+Refreshing device group table relationships
+Syslog cleared for entries over 30 days (about 0 rows)
+Deleting alert_logs more than 365 days that are not active
+Deleting history of active alert_logs more than 365 days
+All deleted ports now purged
+Returned: 0
