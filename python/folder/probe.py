@@ -115,8 +115,6 @@ class Probe:
         return avg
 
     def jitter(self):
-        columns = ['SYN/SYN-ACK', 'TRAVEL-TIME', 'SOURCE-IP', 'DST-IP', 'SEQ']
-        rows = self.handle_files()
         self.to_csv()
         sum = 0
         dataframe = pd.read_csv('output.csv')
@@ -124,7 +122,7 @@ class Probe:
         travel_time = travel_time.tolist()
         
         avg_delay = self.avg_delay()
-        print(f"Average Delay: {avg_delay}")
+        #print(f"Average Delay: {avg_delay}")
         
         for i in range(0, len(travel_time), 2):
             delay_packet = (travel_time[i+1] - travel_time[i]) * 1000
@@ -132,10 +130,31 @@ class Probe:
             sum+=(delay_packet - avg_delay)**2
         
         jitter_value = math.sqrt(sum/(len(travel_time)/2)) 
-        print(f"Average Jitter: {jitter_value}")
+        #print(f"Average Jitter: {jitter_value}")
         return jitter_value
+    
+    def metrics(self):
+        row = []
+        jitter_value = self.jitter()
+        avg_delay = self.avg_delay()
 
-        
+        with open(RESULTS_FILE_FORMAT, 'r') as f:
+            lines = f.read()
+
+        match = re.search(r"Lost: \d+ \(([\d.]+)%\)", lines)
+        packet_loss = float(match.group(1))
+
+        row.append({
+            "JITTER": jitter_value,
+            "LATENCY": avg_delay,
+            "PACKET-LOSS": packet_loss
+        })
+
+        dataframe = pd.DataFrame(row)
+        dataframe.to_csv(METRICS_CSV, index=False)
+
+        return dataframe.to_string()
+ 
 
     def send_data(self):
         results = []
@@ -148,4 +167,3 @@ class Probe:
             return results
         except OSError:
             return os.error 
-

@@ -36,4 +36,4 @@ def influx():
 object1 = Probe("tcp", 20, 20, ["google.com"], [80])
 print(object1)
 #print(object1.target)
-object1.jitter()
+object1.metrics()

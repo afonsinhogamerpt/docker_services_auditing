@@ -25,28 +25,7 @@ services:
         entrypoint: ["./entrypoint.sh"]
 
         networks: 
-          - grafana_influxdb
-
-    smokeping:
-        build: ./smokeping
-        container_name: smokeping
-        ports:
-            - 80:80
-        volumes:
-            - ./smokeping/config:/config
-            - ./smokeping/data:/data
-            - ./smokeping/influx.py:/my-venv/bin/influx.py
-        networks:
-            - grafana_influxdb
-        labels:
-            - traefik.http.routers.smokeping.rule=Host(`smokeping.domain.com`)
-            - traefik.http.routers.smokeping.tls.certresolver=cloudflare
-        environment:
-            - PUID=1000
-            - PGID=1000
-            - TZ=Europe/Lisbon
-        hostname: afonso_gabriel
-        restart: unless-stopped   
+          - grafana_influxdb 
 
     telegraf:
         image: telegraf
