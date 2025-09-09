@@ -1,5 +1,15 @@
 import os
 import pandas as pd
+import subprocess
+import time
+import re
+import math
+
+METRICS_CSV = 'metrics.csv' 
+CSV_FILE = 'output.csv'
+RESULTS_FILE = 'results.txt'
+RESULTS_FILE_FORMAT = 'results_format.txt'
+
 
 class Probe:
     
@@ -9,10 +19,12 @@ class Probe:
         self.amount = amount
         self.target = target
         self.port = port
-    
+
+    '''toString method'''
     def __str__(self):
         return "========= Defined metrics =========\n\nProtocol: {}\nRate: {}\nAmount: {}\nTarget: {}\nPort:{}\n\n====================================".format(self.protocol, self.rate, self.amount, self.target, self.port)
 
+    '''Formating port strings used in a nping command (multi value)'''
     def target_string(self):
         targets = ""
         for i in range(len(self.target)):
@@ -23,6 +35,7 @@ class Probe:
         print(f"Specfied targets: {targets}")
         return targets
     
+    '''Formating port strings used in a nping command (multi value)'''
     def port_string(self):
         ports = ""
         for i in range(len(self.port)):
@@ -32,21 +45,107 @@ class Probe:
                 ports += str(self.port[i] + ", ")
         print(f"Specfied ports: {ports}")
         return ports
+    
+    def to_csv(self):
+        columns = ['SYN/SYN-ACK', 'TRAVEL-TIME', 'SOURCE-IP', 'DST-IP', 'SEQ']
 
+        rows = self.handle_files()
+        dataframe = pd.DataFrame(rows) 
+        dataframe.to_csv(CSV_FILE, index=False)
+
+
+    def handle_files(self):
+        lines = []
+        data = self.send_data()
+        pattern = re.compile(r'^(SENT|RCVD)\s+\(([\d\.]+)s\).*?(\d+\.\d+\.\d+\.\d+):\d+\s*>\s*(\d+\.\d+\.\d+\.\d+):\d+.*?seq=(\d+)')
+
+        if os.path.isfile(RESULTS_FILE) is not True:
+            f = open(RESULTS_FILE, "x" )
+            f.close()
+        else:
+            print("")
+
+        if os.path.isfile(RESULTS_FILE) is not True:
+            f = open(RESULTS_FILE, "x" )
+            f.close()
+        else:
+            print("")
+
+        with open(RESULTS_FILE, "w") as f:
+                f.write(data)
+        
+        with open (RESULTS_FILE, 'r') as f:
+            lines = f.readlines()
+            [lines.pop(0) for _ in range(2)]
+            lines.pop()
+            with open(RESULTS_FILE_FORMAT, 'w') as f:
+                for line in lines:
+                    line.strip("\n")
+                    f.write(line)
+
+        with open(RESULTS_FILE_FORMAT, 'r') as f:
+            lines = f.readlines()
+        
+        rows = []
+
+        for line in lines:
+            m = pattern.search(line)
+            if m:
+                rows.append({
+                    "SYN/SYN-ACK": m.group(1),   #SENT or RCVD
+                    "TRAVEL-TIME": float(m.group(2)),  #time in sec
+                    "SOURCE-IP": m.group(3),
+                    "DST-IP": m.group(4),
+                    "SEQ": int(m.group(5))
+                }) 
+        return rows
+    
+    def avg_delay(self):
+        sum = 0
+
+        dataframe = pd.read_csv('output.csv')
+        travel_time = dataframe['TRAVEL-TIME']
+        travel_time = travel_time.tolist()
+
+        for i in range(0, len(travel_time), 2):
+            if (i + 1 > len(travel_time)):
+                break
+            sum+= (travel_time[i+1] - travel_time[i]) * 1000
+        avg = (sum/(len(travel_time)/2))
+        return avg
+
+    def jitter(self):
+        columns = ['SYN/SYN-ACK', 'TRAVEL-TIME', 'SOURCE-IP', 'DST-IP', 'SEQ']
+        rows = self.handle_files()
+        self.to_csv()
+        sum = 0
+        dataframe = pd.read_csv('output.csv')
+        travel_time = dataframe['TRAVEL-TIME']
+        travel_time = travel_time.tolist()
+        
+        avg_delay = self.avg_delay()
+        print(f"Average Delay: {avg_delay}")
+        
+        for i in range(0, len(travel_time), 2):
+            delay_packet = (travel_time[i+1] - travel_time[i]) * 1000
+            print(delay_packet)
+            sum+=(delay_packet - avg_delay)**2
+        
+        jitter_value = math.sqrt(sum/(len(travel_time)/2)) 
+        print(f"Average Jitter: {jitter_value}")
+        return jitter_value
+
+        
 
     def send_data(self):
+        results = []
         targets = self.target_string()
         ports = self.port_string()
+        nping = f"nping --{self.protocol} -p {ports} {targets} --count {self.amount}"
+        
         try:
-            results =  os.system(f"nping --{self.protocol} -p {ports} {targets} --count {self.amount}")
+            results = str(subprocess.check_output(nping, shell=True, text=True))
+            return results
         except OSError:
-            print(os.error)
+            return os.error 
 
-#nping --udp -p 27017 94.132.98.154 --count 10 --rate 5
-#df = pd.DataFrame(data, columns=columns)
-#df.to_csv('output.csv', index=False)
-
-influx/influx_config
-influx/influx_data
-smokeping/config
-smokeping/data

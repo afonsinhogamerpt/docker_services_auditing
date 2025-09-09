@@ -33,7 +33,7 @@ def influx():
     #write_api.write(bucket=bucket, org=org, record=p)
 
 
-object1 = Probe("tcp", 5, 10, ["google.com"], [80])
+object1 = Probe("tcp", 20, 20, ["google.com"], [80])
 print(object1)
 #print(object1.target)
-#object1.send_data()
+object1.jitter()
