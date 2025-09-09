@@ -1,0 +1,7 @@
+influx/influx_config
+influx/influx_data
+influx/.env
+smokeping/config
+smokeping/data
+grafana/grafana_data
+*rrd

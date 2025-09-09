@@ -61,6 +61,12 @@ services:
             - path: ./influx/.env
         depends_on: 
             - influxdb
+    probers:
+        build: ./python
+        container_name: probers
+        ports:
+            - 
+        
   
 
 volumes:
