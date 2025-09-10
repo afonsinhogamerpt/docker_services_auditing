@@ -166,6 +166,12 @@ class Probe:
         jitter_value = self.jitter()
         avg_delay = self.avg_delay()
 
+        with open(RESULTS_FILE, 'r') as f:
+            datetime = f.read()
+
+        dt = re.search(r'at (\d{4}-\d{2}-\d{2} \d{2}:\d{2})', datetime)
+        time = str(dt.group(1))
+
         with open(RESULTS_FILE_FORMAT, 'r') as f:
             lines = f.read()
 
@@ -175,7 +181,8 @@ class Probe:
         row.append({
             "JITTER": jitter_value,
             "LATENCY": avg_delay,
-            "PACKET-LOSS": packet_loss
+            "PACKET-LOSS": packet_loss,
+            "TIME": time
         })
 
         dataframe = pd.DataFrame(row)

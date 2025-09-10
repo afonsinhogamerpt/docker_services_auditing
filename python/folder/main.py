@@ -23,7 +23,7 @@ def influx():
         org=org
     )
 
-    print(client.ping())
+    #print(client.ping())
 
     while client.ping() is not True:
         print("Waiting...")
@@ -38,7 +38,8 @@ def influx():
                     bucket=BUCKET_INFO, 
                     record=dataframe, 
                     data_frame_measurement_name="metrics", 
-                    data_frame_tag_columns=["symbol"]
+                    data_frame_tag_columns=["symbol"],
+                    data_frame_timestamp_column="TIME" 
                     )
         print('Data written successfully')
     except Exception as e:
