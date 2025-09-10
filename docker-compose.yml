@@ -18,6 +18,8 @@ services:
         container_name: influx
         ports:
             - 8086:8086
+        environment:
+            INFLUXD_HTTP_BIND_ADDRESS: ":8086"
         volumes:
             - ./influx/influx_data:/etc/influxdb2
             - ./influx/influx_config:/var/lib/influxdb2
@@ -39,6 +41,19 @@ services:
         env_file:
             - path: ./influx/.env
         depends_on: 
+            - influxdb
+
+    probes:
+        build: ./python
+        container_name: probes
+        tty: true
+        ports: 
+            - 9000:9000
+        volumes:
+            - ./python/csv_txt_files:/etc/csv_txt_files
+        networks:
+            - grafana_influxdb
+        depends_on:
             - influxdb
    
         

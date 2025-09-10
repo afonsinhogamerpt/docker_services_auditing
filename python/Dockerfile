@@ -1,3 +1,6 @@
-FROM ubuntu/python
-RUN apt-get update && apt-get upgrade 
+FROM python
+WORKDIR /etc/scripts
+COPY requirements.txt .
 RUN pip install -r requirements.txt
+COPY ./folder /etc/scripts
+RUN apt-get update && apt-get install nmap -y && apt-get upgrade -y

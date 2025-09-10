@@ -5,11 +5,10 @@ import time
 import re
 import math
 
-METRICS_CSV = 'metrics.csv' 
-CSV_FILE = 'output.csv'
-RESULTS_FILE = 'results.txt'
-RESULTS_FILE_FORMAT = 'results_format.txt'
-
+METRICS_CSV = '../csv_txt_files/metrics.csv' 
+NPING_FORMATED_CSV = '../csv_txt_files/nping_formated.csv'
+RESULTS_FILE = '../csv_txt_files/results.txt'
+RESULTS_FILE_FORMAT = '../csv_txt_files/results_format.txt'
 
 class Probe:
     
@@ -19,6 +18,7 @@ class Probe:
         self.amount = amount
         self.target = target
         self.port = port
+        metrics_csv = METRICS_CSV
 
     '''toString method'''
     def __str__(self):
@@ -51,7 +51,7 @@ class Probe:
 
         rows = self.handle_files()
         dataframe = pd.DataFrame(rows) 
-        dataframe.to_csv(CSV_FILE, index=False)
+        dataframe.to_csv(NPING_FORMATED_CSV, index=False)
 
 
     def handle_files(self):
@@ -100,37 +100,65 @@ class Probe:
                 }) 
         return rows
     
+    
     def avg_delay(self):
-        sum = 0
+        dataframe = pd.read_csv(NPING_FORMATED_CSV)
+        travel_time = dataframe['TRAVEL-TIME'].tolist()
+        direction = dataframe['SYN/SYN-ACK'].tolist()
 
-        dataframe = pd.read_csv('output.csv')
-        travel_time = dataframe['TRAVEL-TIME']
-        travel_time = travel_time.tolist()
+        total = 0
+        count_packets = 0
+        i = 0
 
-        for i in range(0, len(travel_time), 2):
-            if (i + 1 > len(travel_time)):
-                break
-            sum+= (travel_time[i+1] - travel_time[i]) * 1000
-        avg = (sum/(len(travel_time)/2))
+        while i < len(travel_time):
+            if direction[i] == "SENT":
+            
+                j = i + 1
+                last_rcvd_time = None
+                while j < len(travel_time) and direction[j] != "SENT":
+                    if direction[j] == "RCVD":
+                        last_rcvd_time = travel_time[j]
+                    j += 1
+                if last_rcvd_time is not None:
+                    total += (last_rcvd_time - travel_time[i]) * 1000
+                    count_packets += 1
+                i = j  
+            else:
+                i += 1
+
+        avg = total / count_packets if count_packets else 0
         return avg
 
     def jitter(self):
         self.to_csv()
+        dataframe = pd.read_csv(NPING_FORMATED_CSV)
+        travel_time = dataframe['TRAVEL-TIME'].tolist()
+        direction = dataframe['SYN/SYN-ACK'].tolist()
+        
+        avg_delay = self.avg_delay()  
+        
         sum = 0
-        dataframe = pd.read_csv('output.csv')
-        travel_time = dataframe['TRAVEL-TIME']
-        travel_time = travel_time.tolist()
+        count_packets = 0
+        i = 0
         
-        avg_delay = self.avg_delay()
-        #print(f"Average Delay: {avg_delay}")
+        while i < len(travel_time):
+            if direction[i] == "SENT":
+                
+                j = i + 1
+                last_rcvd_time = None
+                while j < len(travel_time) and direction[j] != "SENT":
+                    if direction[j] == "RCVD":
+                        last_rcvd_time = travel_time[j]
+                    j += 1
+                if last_rcvd_time is not None:
+                    rtt = (last_rcvd_time - travel_time[i]) * 1000
+                    sum += (rtt - avg_delay) ** 2
+                    count_packets += 1
+                i = j  
+            else:
+                i += 1
         
-        for i in range(0, len(travel_time), 2):
-            delay_packet = (travel_time[i+1] - travel_time[i]) * 1000
-            print(delay_packet)
-            sum+=(delay_packet - avg_delay)**2
-        
-        jitter_value = math.sqrt(sum/(len(travel_time)/2)) 
-        #print(f"Average Jitter: {jitter_value}")
+        jitter_value = math.sqrt(sum / count_packets) if count_packets else 0
         return jitter_value
     
     def metrics(self):
