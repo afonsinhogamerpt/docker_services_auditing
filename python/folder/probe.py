@@ -178,11 +178,16 @@ class Probe:
         match = re.search(r"Lost: \d+ \(([\d.]+)%\)", lines)
         packet_loss = float(match.group(1))
 
+        target = str(self.target)
+        target = target[2:len(target) - 2] 
+
         row.append({
             "JITTER": jitter_value,
             "LATENCY": avg_delay,
             "PACKET-LOSS": packet_loss,
-            "TIME": time
+            "TIME": time, 
+            "PROTOCOL": str(self.protocol).upper(),
+            "TARGET": target
         })
 
         dataframe = pd.DataFrame(row)

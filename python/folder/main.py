@@ -53,7 +53,7 @@ def main():
         #print(object1.target)
         object1.metrics()
         influx()
-        time.sleep(300)
+        time.sleep(60)
 
 if __name__ == "__main__":
     main()
