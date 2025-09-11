@@ -1,8 +1,6 @@
-influx/influx_config
-influx/influx_data
-influx/.env
-smokeping/config
-smokeping/data
-grafana/grafana_data
-python/csv_txt_files
-python/folder/__pycache__/probe.cpython-311.pyc
+dashboards/influx/influx_config
+dashboards/influx/influx_data
+dashboards/influx/.env
+dashboards/grafana/grafana_data
+scripting/python/csv_txt_files
+scripting/python/folder/__pycache__/probe.cpython-311.pyc

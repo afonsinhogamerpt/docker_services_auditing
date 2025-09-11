@@ -24,27 +24,6 @@ class Probe:
     def __str__(self):
         return "========= Defined metrics =========\n\nProtocol: {}\nRate: {}\nAmount: {}\nTarget: {}\nPort:{}\n\n====================================".format(self.protocol, self.rate, self.amount, self.target, self.port)
 
-    '''Formating port strings used in a nping command (multi value)'''
-    def target_string(self):
-        targets = ""
-        for i in range(len(self.target)):
-            if (i+1 == len(self.target)):
-                targets += str(self.target[i])
-            else:
-                targets += str(self.target[i] + ", ")
-        print(f"Specfied targets: {targets}")
-        return targets
-    
-    '''Formating port strings used in a nping command (multi value)'''
-    def port_string(self):
-        ports = ""
-        for i in range(len(self.port)):
-            if (i+1 == len(self.port)):
-                ports += str(self.port[i])
-            else:
-                ports += str(self.port[i] + ", ")
-        print(f"Specfied ports: {ports}")
-        return ports
     
     def to_csv(self):
         columns = ['SYN/SYN-ACK', 'TRAVEL-TIME', 'SOURCE-IP', 'DST-IP', 'SEQ']
@@ -178,8 +157,12 @@ class Probe:
         match = re.search(r"Lost: \d+ \(([\d.]+)%\)", lines)
         packet_loss = float(match.group(1))
 
-        target = str(self.target)
-        target = target[2:len(target) - 2] 
+        dataframe = pd.read_csv(NPING_FORMATED_CSV)
+        dataframe_src = dataframe["SOURCE-IP"].to_list()
+        dataframe_dst = dataframe["DST-IP"].to_list()
+        
+        src_ip = dataframe_src[0]
+        dst_ip = dataframe_dst[0]
 
         row.append({
             "JITTER": jitter_value,
@@ -187,7 +170,8 @@ class Probe:
             "PACKET-LOSS": packet_loss,
             "TIME": time, 
             "PROTOCOL": str(self.protocol).upper(),
-            "TARGET": target
+            "DST-IP": dst_ip,
+            "SRC-IP": src_ip
         })
 
         dataframe = pd.DataFrame(row)
@@ -198,10 +182,7 @@ class Probe:
 
     def send_data(self):
         results = []
-        targets = self.target_string()
-        ports = self.port_string()
-        nping = f"nping --{self.protocol} -p {ports} {targets} --count {self.amount}"
-        
+        nping = f"nping --{self.protocol} -p {self.port} {self.target} --count {self.amount}"
         try:
             results = str(subprocess.check_output(nping, shell=True, text=True))
             return results

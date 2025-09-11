@@ -2,8 +2,6 @@ services:
     grafana:
         image: grafana/grafana:main-ubuntu
         container_name: grafana
-        depends_on: 
-          - influxdb
         ports:
             - 3001:3000
         networks: 
@@ -28,36 +26,6 @@ services:
 
         networks: 
           - grafana_influxdb 
-
-    telegraf:
-        image: telegraf
-        container_name: telegraf
-        ports:
-            - 8094:8094
-        volumes:
-            - ./telegraf/telegraf.conf:/etc/telegraf/telegraf.conf
-        networks:
-            - grafana_influxdb
-        env_file:
-            - path: ./influx/.env
-        depends_on: 
-            - influxdb
-
-    probes:
-        build: ./python
-        container_name: probes
-        tty: true
-        ports: 
-            - 9000:9000
-        volumes:
-            - ./python/csv_txt_files:/etc/csv_txt_files
-        networks:
-            - grafana_influxdb
-        depends_on:
-            - influxdb
-   
-        
-  
 
 volumes:
     influx_data:

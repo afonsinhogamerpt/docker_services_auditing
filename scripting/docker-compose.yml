@@ -1,0 +1,19 @@
+services: 
+
+    probes:
+        build: ./python
+        container_name: probes
+        tty: true
+        ports: 
+            - 9000:9000
+        volumes:
+            - ./python/csv_txt_files:/etc/csv_txt_files
+        networks:
+            - grafana_influxdb
+        
+volumes:
+    influx_data:
+
+networks:
+    grafana_influxdb:
+         driver: bridge
