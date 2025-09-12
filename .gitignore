@@ -1,6 +1,11 @@
-dashboards/influx/influx_config
-dashboards/influx/influx_data
-dashboards/influx/.env
-dashboards/grafana/grafana_data
+dashboards/influx/influx_config/engine
+dashboards/influx/influx_config/influxd.bolt
+dashboards/influx/influx_config/influxd.sqlite
+dashboards/influx/influx_data/influx-configs
+dashboards/grafana/grafana_data/pdf
+dashboards/grafana/grafana_data/plugins
+dashboards/grafana/grafana_data/png
+dashboards/grafana/grafana_data/csv
+dashboards/grafana/grafana_data/grafana.db
 scripting/python/csv_txt_files
 scripting/python/folder/__pycache__/probe.cpython-311.pyc
