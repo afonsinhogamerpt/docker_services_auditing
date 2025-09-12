@@ -7,5 +7,9 @@ dashboards/grafana/grafana_data/plugins
 dashboards/grafana/grafana_data/png
 dashboards/grafana/grafana_data/csv
 dashboards/grafana/grafana_data/grafana.db
-scripting/python/csv_txt_files
+scripting/python/csv_txt_files/metrics.csv
+scripting/python/csv_txt_files/nping_formated.csv
+scripting/python/csv_txt_files/probe_info
+scripting/python/csv_txt_files/results_format.txt 
+scripting/python/csv_txt_files/results.txt 
 scripting/python/folder/__pycache__/probe.cpython-311.pyc

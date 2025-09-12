@@ -101,10 +101,19 @@ def add_targets():
                     break
                 else:
                     continue
+
+            with open(PROBE_INFO, 'r') as f:
+                lines = f.readlines()
+                
+            if (lines[0] == "\n"):
+                with open(PROBE_INFO, 'w') as f:
+                    f.write("")
+            
             
             with open(PROBE_INFO, 'a') as f:
                 #target:port rate num_packets protocol
-                line = "{} {} {} {} {}".format(target, port_number, rate, num_packets, protocol)
+                
+                line = "{} {} {} {} {}\n".format(target, port_number, rate, num_packets, protocol)
                 f.write(line)    
 
 def create_objects():
