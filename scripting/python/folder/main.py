@@ -104,12 +104,13 @@ def add_targets():
 
             with open(PROBE_INFO, 'r') as f:
                 lines = f.readlines()
-                
-            if (lines[0] == "\n"):
-                with open(PROBE_INFO, 'w') as f:
-                    f.write("")
-            
-            
+                #print("Content: {}".format(lines))
+
+            if not lines or '\n' in lines:
+                os.remove(PROBE_INFO)
+                f = open(PROBE_INFO, "x" )
+                f.close()
+
             with open(PROBE_INFO, 'a') as f:
                 #target:port rate num_packets protocol
                 
