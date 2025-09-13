@@ -1,18 +1,22 @@
 services: 
     grafana:
-        image: grafana/grafana:main-ubuntu
+        image: grafana/grafana
         container_name: grafana
         ports:
             - 3001:3000
         networks: 
-          - grafana_influxdb
+            - grafana_influxdb
+        environment:
+            - GF_SECURITY_ADMIN_USER=projfinal2025afonsocosta
+            - GF_SECURITY_ADMIN_PASSWORD=afonsocosta2025
         volumes: 
             - ./grafana/grafana_data:/var/lib/grafana
+            - ./grafana/provisioning:/etc/grafana/provisioning
        
     influxdb:
         env_file:
             - path: ./influx/.env
-        image: influxdb
+        image: influxdb:2
         container_name: influx
         ports:
             - 8086:8086
@@ -32,4 +36,6 @@ volumes:
 
 networks:
     grafana_influxdb:
-         driver: bridge
+        name: grafana_influxdb
+        driver: bridge
+         

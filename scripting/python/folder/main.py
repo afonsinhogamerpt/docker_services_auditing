@@ -8,9 +8,9 @@ from probe import METRICS_CSV as metrics_csv
 import os
 
 BUCKET_INFO = "new_bucket"
-TOKEN_INFO = "Oi5reXHe2VlQjk2nYZGQIA9dQ9kZPPcLVrS9IzGYAPyevaCQs8m39ikiT-G8nDiTzJy1XTk8ZQUZQbYt3t1zDA=="
+TOKEN_INFO = "Re13iFCcjxtPYLFa9gDDhPVxnvQBKip3PbxXwQE1DjAZNvK6LS7Eq_bXn7OCRirtRFkgfvVxISanEl094VqPHQ=="
 ORG_INFO = "admin"
-URL_INFO = "http://influx:8086"
+URL_INFO = "http://localhost:8086"
 PROBE_INFO = "../csv_txt_files/probe_info"
 
 def influx():
@@ -40,7 +40,7 @@ def influx():
                     bucket=BUCKET_INFO, 
                     record=dataframe, 
                     data_frame_measurement_name="metrics", 
-                    data_frame_tag_columns=["symbol"],
+                    data_frame_tag_columns=["DST-IP","SRC-IP", "PROTOCOL"],
                     data_frame_timestamp_column="TIME" 
                     )
         print('Data written successfully')
@@ -118,11 +118,11 @@ def add_targets():
                 f.write(line)    
 
 def create_objects():
-
     probes = []
 
     with open(PROBE_INFO,'r') as f:
         lines = f.readlines()
+            
     
     for _ in lines:
         list = _.strip().split()
@@ -152,5 +152,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-

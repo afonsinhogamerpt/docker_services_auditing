@@ -16,4 +16,5 @@ volumes:
 
 networks:
     grafana_influxdb:
-         driver: bridge
+        external: true
+        
