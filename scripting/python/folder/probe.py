@@ -190,7 +190,8 @@ class Probe:
 
     def send_data(self):
         results = []
-        nping = f"nping --{self.protocol} -p {self.port} {self.target} --count {self.amount} --rate {self.rate}"
+        payload = "\\x00\\x00\\x01\\x00"
+        nping = f"nping --{self.protocol} -p {self.port} {self.target} --count {self.amount} --rate {self.rate} --data-string {payload}"
         try:
             results = str(subprocess.check_output(nping, shell=True, text=True))
             return results
