@@ -26,7 +26,7 @@ class Probe:
 
     
     def to_csv(self):
-        columns = ['SYN/SYN-ACK', 'TRAVEL-TIME', 'SOURCE-IP', 'DST-IP', 'SEQ']
+        columns = ['SENT/RCVD', 'TRAVEL-TIME', 'SOURCE-IP', 'DST-IP']
 
         rows = self.handle_files()
         dataframe = pd.DataFrame(rows) 
@@ -36,8 +36,8 @@ class Probe:
     def handle_files(self):
         lines = []
         data = self.send_data()
-        pattern = re.compile(r'^(SENT|RCVD)\s+\(([\d\.]+)s\).*?(\d+\.\d+\.\d+\.\d+):\d+\s*>\s*(\d+\.\d+\.\d+\.\d+):\d+.*?seq=(\d+)')
-
+        pattern = re.compile(r'^(SENT|RCVD)\s+\(([\d\.]+)s\)\s+(TCP|UDP)\s+(\d+\.\d+\.\d+\.\d+):(\d+)\s*>\s*(\d+\.\d+\.\d+\.\d+):(\d+)(?:.*?seq=(\d+))?')
+        
         if os.path.isfile(RESULTS_FILE) is not True:
             f = open(RESULTS_FILE, "x" )
             f.close()
@@ -55,11 +55,13 @@ class Probe:
         
         with open (RESULTS_FILE, 'r') as f:
             lines = f.readlines()
+            #print(lines)
             [lines.pop(0) for _ in range(2)]
             lines.pop()
             with open(RESULTS_FILE_FORMAT, 'w') as f:
                 for line in lines:
                     line.strip("\n")
+                    #print(line)
                     f.write(line)
 
         with open(RESULTS_FILE_FORMAT, 'r') as f:
@@ -71,11 +73,10 @@ class Probe:
             m = pattern.search(line)
             if m:
                 rows.append({
-                    "SYN/SYN-ACK": m.group(1),   #SENT or RCVD
+                    "SENT/RCVD": m.group(1),   #SENT or RCVD
                     "TRAVEL-TIME": float(m.group(2)),  #time in sec
-                    "SOURCE-IP": m.group(3),
-                    "DST-IP": m.group(4),
-                    "SEQ": int(m.group(5))
+                    "SOURCE-IP": m.group(4),
+                    "DST-IP": m.group(6)
                 }) 
         return rows
     
@@ -83,7 +84,7 @@ class Probe:
     def avg_delay(self):
         dataframe = pd.read_csv(NPING_FORMATED_CSV)
         travel_time = dataframe['TRAVEL-TIME'].tolist()
-        direction = dataframe['SYN/SYN-ACK'].tolist()
+        direction = dataframe['SENT/RCVD'].tolist()
 
         total = 0
         count_packets = 0
@@ -106,13 +107,13 @@ class Probe:
                 i += 1
 
         avg = total / count_packets if count_packets else 0
-        return avg
+        return float(avg)
 
     def jitter(self):
         self.to_csv()
         dataframe = pd.read_csv(NPING_FORMATED_CSV)
         travel_time = dataframe['TRAVEL-TIME'].tolist()
-        direction = dataframe['SYN/SYN-ACK'].tolist()
+        direction = dataframe['SENT/RCVD'].tolist()
         
         avg_delay = self.avg_delay()  
         
@@ -138,10 +139,16 @@ class Probe:
                 i += 1
         
         jitter_value = math.sqrt(sum / count_packets) if count_packets else 0
-        return jitter_value
+        return float(jitter_value)
+    
+    def getmac(self):
+        command = f"ip addr | grep link/ether | cut -c 16-32"
+        mac = str(subprocess.check_output(command, shell=True, text=True))
+        return mac
     
     def metrics(self):
         row = []
+        mac = self.getmac()
         jitter_value = self.jitter()
         avg_delay = self.avg_delay()
 
@@ -171,7 +178,8 @@ class Probe:
             "TIME": time, 
             "PROTOCOL": str(self.protocol).upper(),
             "DST-IP": dst_ip,
-            "SRC-IP": src_ip
+            "SRC-IP": src_ip,
+            "MAC": str(mac)
         })
 
         dataframe = pd.DataFrame(row)

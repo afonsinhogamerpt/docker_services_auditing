@@ -10,7 +10,7 @@ import os
 BUCKET_INFO = "new_bucket"
 TOKEN_INFO = "Re13iFCcjxtPYLFa9gDDhPVxnvQBKip3PbxXwQE1DjAZNvK6LS7Eq_bXn7OCRirtRFkgfvVxISanEl094VqPHQ=="
 ORG_INFO = "admin"
-URL_INFO = "http://localhost:8086"
+URL_INFO = "http://100.81.160.110:8086"
 PROBE_INFO = "../csv_txt_files/probe_info"
 
 def influx():
@@ -113,7 +113,6 @@ def add_targets():
 
             with open(PROBE_INFO, 'a') as f:
                 #target:port rate num_packets protocol
-                
                 line = "{} {} {} {} {}\n".format(target, port_number, rate, num_packets, protocol)
                 f.write(line)    
 
