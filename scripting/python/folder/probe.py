@@ -144,11 +144,13 @@ class Probe:
     def getmac(self):
         command = f"ip addr | grep link/ether | cut -c 16-32"
         mac = str(subprocess.check_output(command, shell=True, text=True))
+        mac = mac.replace('\n','')
         return mac
     
     def metrics(self):
         row = []
         mac = self.getmac()
+        
         jitter_value = self.jitter()
         avg_delay = self.avg_delay()
 
@@ -179,7 +181,7 @@ class Probe:
             "PROTOCOL": str(self.protocol).upper(),
             "DST-IP": dst_ip,
             "SRC-IP": src_ip,
-            "MAC": str(mac)
+            "MAC": mac
         })
 
         dataframe = pd.DataFrame(row)
