@@ -9,6 +9,7 @@ METRICS_CSV = '../csv_txt_files/metrics.csv'
 NPING_FORMATED_CSV = '../csv_txt_files/nping_formated.csv'
 RESULTS_FILE = '../csv_txt_files/results.txt'
 RESULTS_FILE_FORMAT = '../csv_txt_files/results_format.txt'
+MAC_FILE = '../csv_txt_files/mac.txt'
 
 class Probe:
     
@@ -143,7 +144,16 @@ class Probe:
     
     def getmac(self):
         command = f"ip addr | grep link/ether | cut -c 16-32"
-        mac = str(subprocess.check_output(command, shell=True, text=True))
+
+        with open(MAC_FILE, 'x') as f:    
+            mac = str(subprocess.check_output(command, shell=True, text=True))
+            f.write(mac)
+
+        with open(MAC_FILE, 'r') as f:
+            lines = f.readlines()
+            
+        mac = lines[0]
+        os.remove(MAC_FILE)
         mac = mac.replace('\n','')
         return mac
     
