@@ -40,7 +40,7 @@ def influx():
                     bucket=BUCKET_INFO, 
                     record=dataframe, 
                     data_frame_measurement_name="metrics", 
-                    data_frame_tag_columns=["DST-IP","SRC-IP", "PROTOCOL"],
+                    data_frame_tag_columns=["DST-IP","SRC-IP", "PROTOCOL", "MAC"],
                     data_frame_timestamp_column="TIME" 
                     )
         print('Data written successfully')

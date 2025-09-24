@@ -159,7 +159,7 @@ class Probe:
     
     def metrics(self):
         row = []
-        #mac = self.getmac()
+        mac = self.getmac()
         
         jitter_value = self.jitter()
         avg_delay = self.avg_delay()
@@ -190,7 +190,8 @@ class Probe:
             "TIME": time, 
             "PROTOCOL": str(self.protocol).upper(),
             "DST-IP": dst_ip,
-            "SRC-IP": src_ip
+            "SRC-IP": src_ip,
+            "MAC": mac
         })
 
         dataframe = pd.DataFrame(row)
