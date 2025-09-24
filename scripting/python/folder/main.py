@@ -40,7 +40,7 @@ def influx():
                     bucket=BUCKET_INFO, 
                     record=dataframe, 
                     data_frame_measurement_name="metrics", 
-                    data_frame_tag_columns=["DST-IP","SRC-IP", "PROTOCOL", "MAC"],
+                    data_frame_tag_columns=["DST-IP","SRC-IP", "PROTOCOL"],
                     data_frame_timestamp_column="TIME" 
                     )
         print('Data written successfully')
@@ -143,11 +143,20 @@ def create_objects():
 
 
 def main():
+    while True:
+        print("Periodicity (max 300 seconds and min 1 second): ")
+        periodicity = input()
+        periodicity = int(periodicity)
+        
+        if (isinstance(periodicity, int) and periodicity <= 300 and periodicity > 0):
+            break
+        else:
+            continue
     add_targets()   
     
     while True:
         create_objects()
-        time.sleep(30)
+        time.sleep(periodicity)
 
 if __name__ == "__main__":
     main()
