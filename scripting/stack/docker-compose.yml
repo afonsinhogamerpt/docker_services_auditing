@@ -11,7 +11,7 @@ services:
     networks:
       - grafana_influxdb
     deploy:
-      replicas: 2
+      mode: global
       placement:
         constraints:
           - node.role == worker
